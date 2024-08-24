@@ -11,12 +11,12 @@ def send_email(contact):
     print(f"Sending email to {contact.full_name} at {contact.email}")
 
 
-def callback(ch, method, body):
+def callback(ch, method, properties, body):
     try:
         contact_id = body.decode()
         logging.info(f"Received contact ID: {contact_id}")
 
-
+        # Перевірка, чи є contact_id дійсним ObjectId
         if not ObjectId.is_valid(contact_id):
             logging.error(f"Invalid ObjectId: {contact_id}")
             ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -52,7 +52,3 @@ def start_consumer():
 
 if __name__ == '__main__':
     start_consumer()
-
-
-
-
